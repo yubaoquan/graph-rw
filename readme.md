@@ -85,3 +85,89 @@ building...
 |  Favorite Article              |  POST            |  /api/articles/:slug/favorite       |
 |  Unfavorite Article            |  DELETE          |  /api/articles/:slug/favorite       |
 |  Get Tags                      |  GET             |  /api/tags                         |
+
+
+## 开发中遇到的问题
+
+### mac 安装 mongodb
+
+多年前安装过 mongodb, 感觉版本应该比较久了, 就把 mongodb 卸载了重装.
+
+根据官网上的指导:
+
+第一步:
+
+```bash
+xcode-select --install
+```
+
+因为 mac 上有 xcode, 就没执行第一步
+
+第二步:
+
+```bash
+brew tap mongodb/brew
+```
+
+成功执行, 没有报错
+
+第三部:
+
+```bash
+brew install mongodb-community@5.0
+```
+
+报错如下:
+
+```bash
+Error: No similarly named formulae found.
+Error: No available formula with the name "mongosh" (dependency of mongodb/brew/mongodb-community).
+It was migrated from mongodb/brew to homebrew/core.
+```
+
+找到[stack overflow 上的这个帖子](https://stackoverflow.com/questions/67953848/no-similarly-named-formulae-found-when-trying-to-install-mongodb-on-macos)
+
+据帖子说是 mongosh 没安装, 需要先安装 mongosh:
+
+```bash
+brew install mongosh
+```
+
+安装完, 再回去安装 mongodb. 又报错. 报错信息忘了, 是xcode相关的 command line tool 版本旧了
+
+回去第一步执行
+
+```bash
+xcode-select --install
+```
+
+又得到报错信息
+
+```bash
+xcode-select: error: command line tools are already installed, use "Software Update" to install updates
+```
+
+根据报错信息, 执行 `Software Update`, 发现根本没有这个命令
+
+然后有找到[这个帖子](https://stackoverflow.com/questions/34617452/how-to-update-xcode-from-command-line)
+
+```bash
+sudo rm -rf /Library/Developer/CommandLineTools
+xcode-select --install
+```
+
+整个卸了重装, 过程用了十几分钟, 装好了. 此时再回去执行安装 mongodb 的第三步
+
+```bash
+brew install mongodb-community@5.0
+```
+
+安装成功
+
+### 启动 mongodb
+
+虽然 mongodb 官网说其默认数据存储路径是 /data/db, 但是我目前的 mac 版本已经无法在根目录下新建文件夹
+
+可以看[这篇帖子](https://stackoverflow.com/questions/58034955/read-only-file-system-when-attempting-mkdir-data-db-on-mac)
+
+所以只能在其他地方新建一个用于存放数据库文件的目录.
