@@ -86,7 +86,6 @@ building...
 |  Unfavorite Article            |  DELETE          |  /api/articles/:slug/favorite       |
 |  Get Tags                      |  GET             |  /api/tags                         |
 
-
 ## 开发中遇到的问题
 
 ### mac 安装 mongodb
@@ -171,3 +170,59 @@ brew install mongodb-community@5.0
 可以看[这篇帖子](https://stackoverflow.com/questions/58034955/read-only-file-system-when-attempting-mkdir-data-db-on-mac)
 
 所以只能在其他地方新建一个用于存放数据库文件的目录.
+
+### makeExecutableSchema
+
+makeExecutableSchema 移动到了 @graphql-tools/schema 这个包中
+
+### graphql 页面的问题
+
+教程里将的应该是 Apollo Server (v2), 我现在用的 Apollo Server (v3)启动起来后, graphql页面会跳转到一个第三方的沙箱页面, 然后这个沙箱页再访问本地的 graphql 服务
+
+看了[这个文章](https://www.apollographql.com/docs/apollo-server/testing/build-run-queries/#graphql-playground), 在 apollo server 的创建参数里添加了一个plugin, 就可以本地起查询页面了
+
+```javascript
+const { ApolloServerPluginLandingPageGraphQLPlayground } = require('apollo-server-core');
+
+const server = new ApolloServer({
+  schema,
+  dataSources,
+  plugins: [
+    ApolloServerPluginLandingPageGraphQLPlayground(),
+  ],
+});
+```
+
+### graphql 页面报错
+
+一开始, 沙箱页面报错
+
+```text
+Network error: unable to reach server
+
+We could not introspect your schema. Please enable introspection on your server.
+```
+
+我还以为是它访问不到我的电脑, 后来用上面的方法起本地 graphql 页面也报错
+
+```text
+"error": "Response not successful: Received status code 500"
+```
+
+从本地页面的报错信息来看, 似乎是服务器内部错误. 但是 cmd 里并没有报错. 打开 network 面板看了一下请求的响应, 找到了:
+
+```json
+{
+  "errors": [{
+    "message": "config.dataSources is not a function",
+    "extensions": {
+      "code": "INTERNAL_SERVER_ERROR",
+      "exception": {
+        "stacktrace": ["TypeError: config.dataSources is not a function", "    at initializeDataSources (/Users/baoquanyu/Documents/code/graph-rw/node_modules/apollo-server-core/dist/requestPipeline.js:281:40)", "    at Object.processGraphQLRequest (/Users/baoquanyu/Documents/code/graph-rw/node_modules/apollo-server-core/dist/requestPipeline.js:25:11)", "    at processTicksAndRejections (internal/process/task_queues.js:93:5)", "    at async processHTTPRequest (/Users/baoquanyu/Documents/code/graph-rw/node_modules/apollo-server-core/dist/runHttpQuery.js:179:30)"]
+      }
+    }
+  }]
+}
+```
+
+原来是导出的 dataSources 需要是一个返回对象的函数(听课不仔细-_-!). 改好之后, 报错没了, 页面能正常使用了.
