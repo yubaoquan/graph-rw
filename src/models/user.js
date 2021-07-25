@@ -16,7 +16,6 @@ const schema = new mongoose.Schema({
     type: String,
     required: true,
     set: (pwd) => saltMd5(pwd),
-    select: false,
   },
   bio: {
     type: String,

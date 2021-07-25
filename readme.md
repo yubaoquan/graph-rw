@@ -64,27 +64,27 @@ building...
 
 [参见此处](https://github.com/gothinkster/realworld/tree/master/api)
 
-|               功能             |      Method      |        path                        |
-|--------------------------------|------------------|------------------------------------|
-|  Authentication                |  POST            |  /api/users/login                  |
-|  Registration                  |  POST            |  /api/users                        |
-|  Get Current User              |  GET             |  /api/user                         |
-|  Update User                   |  PUT             |  /api/user                         |
-|  Get Profile                   |  GET             |  /api/profiles/:username            |
-|  Follow user                   |  POST            |  /api/profiles/:username/follow     |
-|  Unfollow user                 |  DELETE          |  /api/profiles/:username/follow     |
-|  List Articles                 |  GET             |  /api/articles                      |
-|  Feed Articles                 |  GET             |  /api/articles/feed                 |
-|  Get Article                   |  GET             |  /api/articles/:slug                |
-|  Create Article                |  POST            |  /api/articles                      |
-|  Update Article                |  PUT             |  /api/articles/:slug                |
-|  Delete Article                |  DELETE          |  /api/articles/:slug                |
-|  Add Comments to an Article    |  POST            |  /api/articles/:slug/comments       |
-|  Get Comments from an Article  |  GET             |  /api/articles/:slug/comments       |
-|  Delete Comment                |  DELETE          |  /api/articles/:slug/comments/:id   |
-|  Favorite Article              |  POST            |  /api/articles/:slug/favorite       |
-|  Unfavorite Article            |  DELETE          |  /api/articles/:slug/favorite       |
-|  Get Tags                      |  GET             |  /api/tags                         |
+|               功能             |      typeDefs                  |    进度     |
+|--------------------------------|--------------------------------|------------|
+|  Authentication                |  Mutation login                |  done      |
+|  Registration                  |  Mutation createUser           |  done      |
+|  Get Current User              |  Query /user                   |  pending   |
+|  Update User                   |  Mutation /user                |  pending   |
+|  Get Profile                   |  Query /profiles/:username      |  pending   |
+|  Follow user                   |  Mutation /profiles/:username/follow    |  pending   |
+|  Unfollow user                 |  Mutation /profiles/:username/follow    |  pending   |
+|  List Articles                 |  Query /articles                      |  pending   |
+|  Feed Articles                 |  Query /articles/feed                |  pending   |
+|  Get Article                   |  Query /articles/:slug               |  pending   |
+|  Create Article                |  Mutation /articles                     |  pending   |
+|  Update Article                |  Mutation /articles/:slug               |  pending   |
+|  Delete Article                |  Mutation /articles/:slug               |  pending   |
+|  Add Comments to an Article    |  Mutation /articles/:slug/comments      |  pending   |
+|  Get Comments from an Article  |  Query /articles/:slug/comments      |  pending   |
+|  Delete Comment                |  Mutation /articles/:slug/comments/:id  |  pending   |
+|  Favorite Article              |  Mutation /articles/:slug/favorite      |  pending   |
+|  Unfavorite Article            |  Mutation /articles/:slug/favorite      |  pending   |
+|  Get Tags                      |  Query tags                     |  done      |
 
 ## 开发中遇到的问题
 

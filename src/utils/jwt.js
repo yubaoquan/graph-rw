@@ -1,14 +1,14 @@
 const { promisify } = require('util');
 
 const jwt = require('jsonwebtoken');
-const { jwtSecret } = require('../config/config.default');
+const { jwtSecret, jwtExpireTime } = require('../config/config.default');
 
 const sign = promisify(jwt.sign);
 const verify = promisify(jwt.verify);
 
 exports.sign = (obj) => {
   try {
-    return sign(obj, jwtSecret);
+    return sign(obj, jwtSecret, { expiresIn: jwtExpireTime });
   } catch (e) {
     console.error(e);
   }
