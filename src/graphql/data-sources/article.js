@@ -7,7 +7,7 @@ module.exports = class Article extends MongoDataSource {
     return article.save(article);
   }
 
-  getById(id) {
+  findById(id) {
     return this.findOneById(id);
   }
 

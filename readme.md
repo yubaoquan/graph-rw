@@ -64,27 +64,27 @@ building...
 
 [参见此处](https://github.com/gothinkster/realworld/tree/master/api)
 
-|               功能             |      typeDefs                  |    进度     |
-|--------------------------------|--------------------------------|-------------|
-|  Authentication                |  Mutation login                        |  done    |
-|  Registration                  |  Mutation createUser                   |  done    |
-|  Get Current User              |  Query currentUser                     |  done    |
-|  Update User                   |  Mutation updateUser                   |  done    |
-|  Get Profile                   |  Query getProfile                      |  done    |
-|  Follow user                   |  Mutation follow                       |  done    |
-|  Unfollow user                 |  Mutation unfollow                     |  done    |
-|  List Articles                 |  Query articles                        |  done    |
-|  Feed Articles                 |  Query feed                            |  done   |
-|  Get Article                   |  Query getArticleById                   |  done   |
-|  Create Article                |  Mutation createArticle                 |  done   |
-|  Update Article                |  Mutation updateArticle                 |  done   |
-|  Delete Article                |  Mutation deleteArticle                 |  done   |
-|  Add Comments to an Article    |  Mutation /articles/:slug/comments          |  pending   |
-|  Get Comments from an Article  |  Query /articles/:slug/comments             |  pending   |
-|  Delete Comment                |  Mutation /articles/:slug/comments/:id      |  pending   |
-|  Favorite Article              |  Mutation updateFavorite op = 'inc'     |  done   |
-|  Unfavorite Article            |  Mutation updateFavorite op = 'dec'     |  done   |
-|  Get Tags                      |  Query tags                            |  done    |
+|               功能             |      typeDefs                        |    进度     |
+|--------------------------------|--------------------------------------|------------|
+|  Authentication                |  Mutation login                       |  done     |
+|  Registration                  |  Mutation createUser                  |  done     |
+|  Get Current User              |  Query currentUser                    |  done     |
+|  Update User                   |  Mutation updateUser                  |  done     |
+|  Get Profile                   |  Query getProfile                      |  done     |
+|  Follow user                   |  Mutation follow                       |  done     |
+|  Unfollow user                 |  Mutation unfollow                     |  done     |
+|  List Articles                 |  Query articles                        |  done     |
+|  Feed Articles                 |  Query feed                            |  done     |
+|  Get Article                   |  Query getArticleById                  |  done     |
+|  Create Article                |  Mutation createArticle                |  done     |
+|  Update Article                |  Mutation updateArticle                |  done     |
+|  Delete Article                |  Mutation deleteArticle                |  done     |
+|  Add Comments to an Article    |  Mutation createComment                |  done     |
+|  Get Comments from an Article  |  Query getComments                     |  done     |
+|  Delete Comment                |  Mutation deleteComment                |  done     |
+|  Favorite Article              |  Mutation updateFavorite op = 'inc'     |  done    |
+|  Unfavorite Article            |  Mutation updateFavorite op = 'dec'     |  done    |
+|  Get Tags                      |  Query tags                            |  done     |
 
 ## 开发中遇到的问题
 
@@ -264,3 +264,8 @@ module.exports = {
   },
 };
 ```
+
+## graphql使用感受
+
+- 基于字符串的 schema 定义方式太恶心了, 拆分都不好拆.
+- 增加一种实体, 要增加一连串的模板代码. 开发过程很繁琐.

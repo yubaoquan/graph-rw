@@ -10,7 +10,7 @@ module.exports = {
       return { args };
     },
     async getArticleById(parent, { articleId }, { dataSources }) {
-      const article = dataSources.articles.getById(articleId);
+      const article = dataSources.articles.findById(articleId);
       return { article };
     },
   },
@@ -21,13 +21,13 @@ module.exports = {
       return { article: ret };
     },
     async updateArticle(parent, { articleId, article }, { dataSources, user }) {
-      const articleFromDb = await dataSources.articles.getById(articleId);
+      const articleFromDb = await dataSources.articles.findById(articleId);
       if (!user._id.equals(articleFromDb.author._id)) throw new AuthenticationError('非原作者, 未授权');
       const ret = await dataSources.articles.updateById(articleId, article);
       return { article: ret };
     },
     async deleteArticle(parent, { articleId }, { dataSources, user }) {
-      const articleFromDb = await dataSources.articles.getById(articleId);
+      const articleFromDb = await dataSources.articles.findById(articleId);
       if (!user._id.equals(articleFromDb.author._id)) throw new AuthenticationError('非原作者, 未授权');
       await dataSources.articles.deleteById(articleId);
       return { success: true };

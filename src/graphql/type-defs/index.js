@@ -56,6 +56,22 @@ module.exports = gql`
     tagList: [String!]
   }
 
+  input CreateCommentInput {
+    articleId: String!
+    body: String!
+  }
+
+  type CreateCommentPayload {
+    comment: Comment
+  }
+
+  type Comment {
+    _id: String!
+    author: String!
+    articleId: String!
+    body: String!
+  }
+
   type Article {
     _id: String!
     title: String!
@@ -79,6 +95,10 @@ module.exports = gql`
   type ArticlesPayload {
     articles: [Article!]
     articlesCount: Int!
+  }
+
+  type CommentsPayload {
+    comments: [Comment]
   }
 
   type FeedPayload {
@@ -109,16 +129,24 @@ module.exports = gql`
     success: Boolean
   }
 
+  type DeleteCommentPayload {
+    success: Boolean
+    comment: Comment
+  }
+
   type Query {
     # User
     currentUser: User @auth
     getProfile(userId: String): ProfilePayload @auth
 
     # Article
-    articles(offset: Int = 0, limit: Int = 2): ArticlesPayload
-    feed(offset: Int = 0, limit: Int = 2): FeedPayload @auth
+    articles(offset: Int = 0, limit: Int = 10): ArticlesPayload
+    feed(offset: Int = 0, limit: Int = 10): FeedPayload @auth
     getArticleById(articleId: String): ArticlePayload
     tags: [Tag]
+
+    # Comment
+    getComments(articleId: String, offset: Int = 0, limit: Int = 20): CommentsPayload
   }
 
   type Mutation {
@@ -134,5 +162,9 @@ module.exports = gql`
     updateArticle(articleId: String, article: UpdateArticleInput): CreateArticlePayload @auth
     deleteArticle(articleId: String): DeleteArticlePayload @auth
     updateFavorite(articleId: String, op: String): SimplePayload @auth
+
+    # Comment
+    createComment(articleId: String, comment: CreateCommentInput): CreateCommentPayload @auth
+    deleteComment(commentId: String): DeleteCommentPayload @auth
   }
 `;

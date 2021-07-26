@@ -3,6 +3,11 @@ const baseFields = require('./base');
 
 const schema = new mongoose.Schema({
   ...baseFields,
+  articleId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Article',
+    required: true,
+  },
   body: {
     type: String,
     default: null,
