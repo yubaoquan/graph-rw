@@ -58,7 +58,13 @@
 
 ## 实现一个 GraphQL 版本的完整 realworld API
 
-building...
+### 页面地址
+
+[graphQL查询页面](http://106.75.153.180:8900/graphql)
+
+### graphQL 语句
+
+[开发过程中用到的 graphQL 语句](./graphQL.md)
 
 ### 接口列表
 
