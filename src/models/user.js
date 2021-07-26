@@ -25,6 +25,18 @@ const schema = new mongoose.Schema({
     type: String,
     default: null,
   },
+  favorites: {
+    type: [mongoose.Schema.Types.ObjectId],
+    default: null,
+  },
+  following: {
+    type: [mongoose.Schema.Types.ObjectId],
+    default: null,
+  },
+  followedBy: {
+    type: [mongoose.Schema.Types.ObjectId],
+    default: null,
+  },
 });
 
 module.exports = mongoose.model('User', schema);

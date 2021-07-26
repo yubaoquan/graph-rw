@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars, no-underscore-dangle */
 const { AuthenticationError } = require('apollo-server-core');
 
-/* eslint-disable no-underscore-dangle */
 module.exports = {
   Query: {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    async articles(parent, args, { dataSources }) {
+    async articles(parent, args, ctx) {
+      return { args };
+    },
+    async feed(parent, args, ctx) {
       return { args };
     },
     async getArticleById(parent, { articleId }, { dataSources }) {
@@ -27,8 +29,22 @@ module.exports = {
     async deleteArticle(parent, { articleId }, { dataSources, user }) {
       const articleFromDb = await dataSources.articles.getById(articleId);
       if (!user._id.equals(articleFromDb.author._id)) throw new AuthenticationError('非原作者, 未授权');
-      const ret = await dataSources.articles.deleteById(articleId);
-      console.info(ret);
+      await dataSources.articles.deleteById(articleId);
+      return { success: true };
+    },
+    async updateFavorite(parent, { articleId, op }, { dataSources: { users, articles }, user }) {
+      if (op === 'inc') {
+        await Promise.all([
+          users.addFavorite(user._id, articleId),
+          articles.addFavorite(articleId),
+        ]);
+      } else {
+        await Promise.all([
+          users.removeFavorite(user._id, articleId),
+          articles.removeFavorite(articleId),
+        ]);
+      }
+
       return { success: true };
     },
   },
@@ -46,6 +62,20 @@ module.exports = {
     },
     async articlesCount(parent, arts, { dataSources }) {
       const articlesCount = await dataSources.articles.getCount();
+      return articlesCount;
+    },
+  },
+  FeedPayload: {
+    async articles(parent, args, { dataSources, user }) {
+      const { offset, limit } = parent.args;
+      const { following: authorIds } = await dataSources.users.findById(user._id);
+      console.info(authorIds);
+      const articles = await dataSources.articles.feedArticles(authorIds, { offset, limit });
+      return articles;
+    },
+    async articlesCount(parent, args, { dataSources, user }) {
+      const { following: authorIds } = await dataSources.users.findById(user._id);
+      const articlesCount = await dataSources.articles.getFeedCount(authorIds);
       return articlesCount;
     },
   },

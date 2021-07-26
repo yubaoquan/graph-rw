@@ -12,6 +12,18 @@ module.exports = {
     currentUser(parent, args, { user }) {
       return user;
     },
+    async getProfile(parent, { userId }, { dataSources, user }) {
+      const userFromDb = await dataSources.users.findById(userId);
+
+      return {
+        profile: {
+          username: userFromDb.username,
+          bio: userFromDb.bio,
+          image: userFromDb.image,
+          following: userFromDb.followedBy.includes(user?._id),
+        },
+      };
+    },
   },
 
   Mutation: {
@@ -52,13 +64,26 @@ module.exports = {
     },
 
     async updateUser(parent, { user: userInput }, { user, dataSources }) {
-      console.info('update user', user);
-      console.info(userInput);
       if (userInput.password) {
         userInput.pasword = saltMd5(userInput.password);
       }
       const ret = await dataSources.users.updateUser(user._id, userInput);
       return { user: ret };
+    },
+
+    async follow(parent, { userId }, { dataSources, user }) {
+      if (user._id.equals(userId)) throw new Error('不能follow自己');
+
+      await dataSources.users.follow(user._id, userId);
+
+      return { success: true };
+    },
+    async unfollow(parent, { userId }, { dataSources, user }) {
+      if (user._id.equals(userId)) throw new Error('不能取关自己');
+
+      await dataSources.users.unfollow(user._id, userId);
+
+      return { success: true };
     },
   },
 };

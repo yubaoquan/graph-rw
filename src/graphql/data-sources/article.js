@@ -15,8 +15,19 @@ module.exports = class Article extends MongoDataSource {
     return this.model?.find().skip(options.offset).limit(options.limit);
   }
 
+  feedArticles(authorIds, options) {
+    return this.model
+      .find({ author: { $in: authorIds } })
+      .skip(options.offset)
+      .limit(options.limit);
+  }
+
   getCount() {
     return this.model?.countDocuments();
+  }
+
+  getFeedCount(authorIds) {
+    return this.model?.countDocuments({ author: { $in: authorIds } });
   }
 
   updateById(articleId, data) {
@@ -25,5 +36,17 @@ module.exports = class Article extends MongoDataSource {
 
   deleteById(articleId) {
     return this.model?.findByIdAndDelete(articleId);
+  }
+
+  async addFavorite(articleId) {
+    const article = await this.findOneById(articleId);
+    article.favoritesCount += 1;
+    return article.save();
+  }
+
+  async removeFavorite(articleId) {
+    const article = await this.findOneById(articleId);
+    article.favoritesCount -= 1;
+    return article.save();
   }
 };

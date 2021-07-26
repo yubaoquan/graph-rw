@@ -66,25 +66,25 @@ building...
 
 |               功能             |      typeDefs                  |    进度     |
 |--------------------------------|--------------------------------|-------------|
-|  Authentication                |  Mutation login                |  done       |
-|  Registration                  |  Mutation createUser           |  done       |
-|  Get Current User              |  Query currentUser             |  done       |
-|  Update User                   |  Mutation updateUser           |  done       |
-|  Get Profile                   |  Query /profiles/:username      |  pending   |
-|  Follow user                   |  Mutation /profiles/:username/follow    |  pending   |
-|  Unfollow user                 |  Mutation /profiles/:username/follow    |  pending   |
-|  List Articles                 |  Query articles                 |  done   |
-|  Feed Articles                 |  Query /articles/feed                |  pending   |
-|  Get Article                   |  Query getArticleById           |  done   |
-|  Create Article                |  Mutation createArticle         |  done   |
-|  Update Article                |  Mutation updateArticle         |  done   |
-|  Delete Article                |  Mutation deleteArticle         |  done   |
-|  Add Comments to an Article    |  Mutation /articles/:slug/comments      |  pending   |
-|  Get Comments from an Article  |  Query /articles/:slug/comments         |  pending   |
-|  Delete Comment                |  Mutation /articles/:slug/comments/:id  |  pending   |
-|  Favorite Article              |  Mutation /articles/:slug/favorite      |  pending   |
-|  Unfavorite Article            |  Mutation /articles/:slug/favorite      |  pending   |
-|  Get Tags                      |  Query tags                     |  done      |
+|  Authentication                |  Mutation login                        |  done    |
+|  Registration                  |  Mutation createUser                   |  done    |
+|  Get Current User              |  Query currentUser                     |  done    |
+|  Update User                   |  Mutation updateUser                   |  done    |
+|  Get Profile                   |  Query getProfile                      |  done    |
+|  Follow user                   |  Mutation follow                       |  done    |
+|  Unfollow user                 |  Mutation unfollow                     |  done    |
+|  List Articles                 |  Query articles                        |  done    |
+|  Feed Articles                 |  Query feed                            |  done   |
+|  Get Article                   |  Query getArticleById                   |  done   |
+|  Create Article                |  Mutation createArticle                 |  done   |
+|  Update Article                |  Mutation updateArticle                 |  done   |
+|  Delete Article                |  Mutation deleteArticle                 |  done   |
+|  Add Comments to an Article    |  Mutation /articles/:slug/comments          |  pending   |
+|  Get Comments from an Article  |  Query /articles/:slug/comments             |  pending   |
+|  Delete Comment                |  Mutation /articles/:slug/comments/:id      |  pending   |
+|  Favorite Article              |  Mutation updateFavorite op = 'inc'     |  done   |
+|  Unfavorite Article            |  Mutation updateFavorite op = 'dec'     |  done   |
+|  Get Tags                      |  Query tags                            |  done    |
 
 ## 开发中遇到的问题
 
