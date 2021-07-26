@@ -28,7 +28,7 @@ module.exports = {
         map: [
           ['@', './src'],
         ],
-        extensions: ['.tsx', '.ts'],
+        extensions: ['.tsx', '.ts', '.mjs', '.js', '.jsx'],
       },
     },
   },

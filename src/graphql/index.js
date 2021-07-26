@@ -7,6 +7,9 @@ module.exports = async (app) => {
   const server = new ApolloServer({
     schema,
     dataSources,
+    context({ req }) {
+      return { token: req.headers.authorization };
+    },
     plugins: [
       // 打开注释, 本地起graphql页面, 不访问沙箱页
       // ApolloServerPluginLandingPageGraphQLPlayground(),

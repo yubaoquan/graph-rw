@@ -1,13 +1,16 @@
 /* eslint-disable no-underscore-dangle */
 const { UserInputError } = require('apollo-server-express');
-const jwt = require('../utils/jwt');
-const { saltMd5 } = require('../utils/md5');
+const jwt = require('../../utils/jwt');
+const { saltMd5 } = require('../../utils/md5');
 
 module.exports = {
   Query: {
     async tags(parent, args, { dataSources }) {
       const tags = await dataSources.tags.getTags();
       return tags;
+    },
+    currentUser(parent, args, { user }) {
+      return user;
     },
   },
 
@@ -46,6 +49,16 @@ module.exports = {
           token,
         },
       };
+    },
+
+    async updateUser(parent, { user: userInput }, { user, dataSources }) {
+      console.info('update user', user);
+      console.info(userInput);
+      if (userInput.password) {
+        userInput.pasword = saltMd5(userInput.password);
+      }
+      const ret = await dataSources.users.updateUser(user._id, userInput);
+      return { user: ret };
     },
   },
 };

@@ -65,22 +65,22 @@ building...
 [参见此处](https://github.com/gothinkster/realworld/tree/master/api)
 
 |               功能             |      typeDefs                  |    进度     |
-|--------------------------------|--------------------------------|------------|
-|  Authentication                |  Mutation login                |  done      |
-|  Registration                  |  Mutation createUser           |  done      |
-|  Get Current User              |  Query /user                   |  pending   |
-|  Update User                   |  Mutation /user                |  pending   |
+|--------------------------------|--------------------------------|-------------|
+|  Authentication                |  Mutation login                |  done       |
+|  Registration                  |  Mutation createUser           |  done       |
+|  Get Current User              |  Query currentUser             |  done       |
+|  Update User                   |  Mutation updateUser           |  done       |
 |  Get Profile                   |  Query /profiles/:username      |  pending   |
 |  Follow user                   |  Mutation /profiles/:username/follow    |  pending   |
 |  Unfollow user                 |  Mutation /profiles/:username/follow    |  pending   |
-|  List Articles                 |  Query /articles                      |  pending   |
+|  List Articles                 |  Query articles                 |  done   |
 |  Feed Articles                 |  Query /articles/feed                |  pending   |
-|  Get Article                   |  Query /articles/:slug               |  pending   |
-|  Create Article                |  Mutation /articles                     |  pending   |
-|  Update Article                |  Mutation /articles/:slug               |  pending   |
-|  Delete Article                |  Mutation /articles/:slug               |  pending   |
+|  Get Article                   |  Query getArticleById           |  done   |
+|  Create Article                |  Mutation createArticle         |  done   |
+|  Update Article                |  Mutation updateArticle         |  done   |
+|  Delete Article                |  Mutation deleteArticle         |  done   |
 |  Add Comments to an Article    |  Mutation /articles/:slug/comments      |  pending   |
-|  Get Comments from an Article  |  Query /articles/:slug/comments      |  pending   |
+|  Get Comments from an Article  |  Query /articles/:slug/comments         |  pending   |
 |  Delete Comment                |  Mutation /articles/:slug/comments/:id  |  pending   |
 |  Favorite Article              |  Mutation /articles/:slug/favorite      |  pending   |
 |  Unfavorite Article            |  Mutation /articles/:slug/favorite      |  pending   |
@@ -226,3 +226,41 @@ We could not introspect your schema. Please enable introspection on your server.
 ```
 
 原来是导出的 dataSources 需要是一个返回对象的函数(听课不仔细-_-!). 改好之后, 报错没了, 页面能正常使用了.
+
+### 其他因版本差异而给改变的引用路径
+
+```javascript
+const { SchemaDirectiveVisitor } = require('@graphql-tools/utils');
+```
+
+### eslint 插件崩溃
+
+一打开某个引用了 graphql 模块的文件, eslint就会崩溃, 报一堆莫名其妙的错误.
+
+看了半天, 又发现另一个报错, 报错提示找不到 graphql 模块. 到 graphql 模块的代码里看了下, 这个模块的入口是 .mjs, 然而在 eslint 配置中 import/resolver 这个插件遗漏了对 .mjs 的识别, 所以找不到模块导致报错, 把.mjs加入插件的 import/resolver 配置项的 map.extensions 配置中后, 报错都没有了
+
+### resolver 链中拿到的第二个参数 args 是个空对象
+
+为了把查询参数传递下去, 需要把查询参数放到 query 对象的返回值里面, 然后从 resolver 的子链中通过 parent 参数获取
+
+```javascript
+module.exports = {
+  Query: {
+    async articles(parent, args, { dataSources }) {
+      return { args };
+    },
+  },
+  ArticlesPayload: {
+    // 这里拿到的 args 是个空对象, parent 是 Query.articles 的返回值
+    async articles(parent, args, { dataSources }) {
+      const { offset, limit } = parent.args;
+      const articles = await dataSources.articles.getArticles({ offset, limit });
+      return articles;
+    },
+    async articlesCount(parent, arts, { dataSources }) {
+      const articlesCount = await dataSources.articles.getCount();
+      return articlesCount;
+    },
+  },
+};
+```

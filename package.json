@@ -9,6 +9,17 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "@graphql-tools/schema": "^7.1.5",
+    "@graphql-tools/utils": "^7.10.0",
+    "apollo-datasource-mongodb": "^0.4.6",
+    "apollo-server-core": "^3.0.2",
+    "apollo-server-express": "^3.0.2",
+    "express": "^4.17.1",
+    "graphql": "^15.5.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.3"
+  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",
@@ -20,15 +31,6 @@
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "typescript": "^4.3.4"
-  },
-  "dependencies": {
-    "@graphql-tools/schema": "^7.1.5",
-    "apollo-datasource-mongodb": "^0.4.6",
-    "apollo-server-core": "^3.0.2",
-    "apollo-server-express": "^3.0.2",
-    "express": "^4.17.1",
-    "graphql": "^15.5.1",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.13.3"
   }
+
 }

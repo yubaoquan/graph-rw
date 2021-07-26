@@ -1,4 +1,4 @@
-const dbModel = require('../models');
+const dbModel = require('../../models');
 const Articles = require('./article');
 const Comments = require('./comment');
 const Tags = require('./tag');

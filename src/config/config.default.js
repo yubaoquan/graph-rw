@@ -3,5 +3,5 @@ module.exports = {
   salt: 'lll-ggg',
   jwtSecret: 'asetaet',
   port: 8900,
-  jwtExpireTime: 60 * 60,
+  jwtExpireTime: 60 * 60 * 8,
 };
